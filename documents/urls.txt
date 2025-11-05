@@ -1,0 +1,7 @@
+# One URL per line. Lines starting with # are ignored.
+https://www.oregon.gov/oha/HPA/DSI-Pharmacy/MHCAGDocs/Narrative-Medication-Treatment-Algorithm-for-Adults-with-GAD.pdf
+https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/021323s047lbl.pdf
+https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/019839s080s083,020990s039s041lbl.pdf
+https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/020699s107lbl.pdf
+https://www.accessdata.fda.gov/drugsatfda_docs/label/2017/021427s049lbl.pdf
+https://www.accessdata.fda.gov/drugsatfda_docs/label/2016/021434s016lbl.pdf
