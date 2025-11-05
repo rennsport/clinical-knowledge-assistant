@@ -6,6 +6,5 @@ def create_app(rag_fn) -> gr.blocks.Blocks:
         fn=rag_fn,
         title="RAG Chatbot",
         description="Ask me anything about the loaded documents!",
+        type="messages"
     )
-
-
