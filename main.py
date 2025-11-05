@@ -17,6 +17,11 @@ from gradio_app import create_app
 
 
 def load_environment() -> None:
+    """Load environment variables from .env and prompts.env.
+
+    Supports a secondary ``prompts.env`` to allow prompt iteration
+    without touching secrets. Fails fast if ``OPENAI_API_KEY`` is missing.
+    """
     load_dotenv()
     load_dotenv("./prompts.env")
     if not os.getenv("OPENAI_API_KEY"):
@@ -37,6 +42,11 @@ URLS_FILE = DOCUMENTS_DIR / "urls.txt"
 
 
 def initialize():
+    """Build the retrieval pipeline and return a bound chat function.
+
+    Constructs dependencies (docs → splits → vector
+    store, then model) and returns an agent created by ``make_rag_agent``.
+    """
     load_environment()
 
     urls = read_urls(URLS_FILE)
@@ -46,7 +56,6 @@ def initialize():
     vector_store = build_vector_store(splits, EMBEDDING_MODEL)
 
     model = ChatOpenAI(model=MODEL_NAME)
-
     return make_rag_agent(model, vector_store)
 
 

@@ -9,6 +9,7 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 
 def read_urls(urls_file: Path) -> list[str]:
+    """Read newline-delimited URLs from ``urls_file``."""
     if not urls_file.exists():
         return []
     urls: list[str] = []
@@ -21,6 +22,10 @@ def read_urls(urls_file: Path) -> list[str]:
 
 
 def download_documents(urls: list[str], destination_dir: Path) -> list[Path]:
+    """Download documents to ``destination_dir`` if not already present.
+
+    Skips files that already exist so repeated runs are fast and safe. 
+    """
     destination_dir.mkdir(parents=True, exist_ok=True)
     local_paths: list[Path] = []
     for url in urls:
@@ -40,6 +45,11 @@ def download_documents(urls: list[str], destination_dir: Path) -> list[Path]:
 
 
 def load_pdfs(paths: list[Path]) -> list:
+    """Load PDFs into LangChain ``Document`` objects.
+
+    Uses ``PyPDFLoader`` for parsing. Logs progress for long
+    ingestions to ensure the user knows the step of the process they're on
+    """
     print(f"[Load] Loading {len(paths)} PDFs...")
     loaders = [PyPDFLoader(str(p)) for p in paths]
     all_docs = []
@@ -55,6 +65,11 @@ def load_pdfs(paths: list[Path]) -> list:
 
 
 def split_documents(docs: list, chunk_size: int = 1000, chunk_overlap: int = 200) -> list:
+    """Split documents into overlapping chunks suitable for retrieval.
+
+    ``RecursiveCharacterTextSplitter`` preserves semantic continuity via
+    overlap. Chunk sizes are configurable via env to tune recall vs. latency.
+    """
     print(f"[Split] Splitting {len(docs)} documents...")
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=chunk_size,
@@ -65,6 +80,12 @@ def split_documents(docs: list, chunk_size: int = 1000, chunk_overlap: int = 200
 
 
 def build_vector_store(splits: list, embedding_model: str = "text-embedding-3-large") -> InMemoryVectorStore:
+    """Create an in-memory vector store from chunks using OpenAI embeddings.
+
+    ``InMemoryVectorStore`` keeps the POC simple and dependency-free.
+    Swapping to a persistent store (FAISS, Chroma, PGVector) only requires changing this
+    function. Embedding model is injected to allow testing multiple.
+    """
     print(f"[Build] Building vector store with {len(splits)} splits...")
     store = InMemoryVectorStore(OpenAIEmbeddings(model=embedding_model))
     if splits:
