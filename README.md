@@ -1,5 +1,8 @@
 ## Quick Start
 
+## Models
+I used OpenAI's gpt-5-nano for this project. Feel free to use any OpenAI API compatible tools such as Ollama, LM Studio, etc.
+
 ### Project Files
 - **main.py**: Entry point; initializes environment, builds vector store, wires model and launches UI.
 - **document_utils.py**: Document pipeline utilities (download, load PDFs, split, build vector store).
