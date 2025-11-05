@@ -41,5 +41,3 @@ def make_rag_agent(
         return final_text or "No response generated."
 
     return rag_agent
-
-
