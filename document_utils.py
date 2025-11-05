@@ -28,6 +28,7 @@ def download_documents(urls: list[str], destination_dir: Path) -> list[Path]:
         local_path = destination_dir / name
         if not local_path.exists():
             try:
+                print(f"[Download] Downloading {url}...")
                 resp = requests.get(url, timeout=60)
                 resp.raise_for_status()
                 local_path.write_bytes(resp.content)
@@ -39,10 +40,12 @@ def download_documents(urls: list[str], destination_dir: Path) -> list[Path]:
 
 
 def load_pdfs(paths: list[Path]) -> list:
+    print(f"[Load] Loading {len(paths)} PDFs...")
     loaders = [PyPDFLoader(str(p)) for p in paths]
     all_docs = []
     for loader in loaders:
         try:
+            print(f"[Load] Loading {loader.file_path}...")
             loaded_docs = loader.load()
             all_docs.extend(loaded_docs)
         except Exception as e:
@@ -52,6 +55,7 @@ def load_pdfs(paths: list[Path]) -> list:
 
 
 def split_documents(docs: list, chunk_size: int = 1000, chunk_overlap: int = 200) -> list:
+    print(f"[Split] Splitting {len(docs)} documents...")
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=chunk_size,
         chunk_overlap=chunk_overlap,
@@ -61,6 +65,7 @@ def split_documents(docs: list, chunk_size: int = 1000, chunk_overlap: int = 200
 
 
 def build_vector_store(splits: list, embedding_model: str = "text-embedding-3-large") -> InMemoryVectorStore:
+    print(f"[Build] Building vector store with {len(splits)} splits...")
     store = InMemoryVectorStore(OpenAIEmbeddings(model=embedding_model))
     if splits:
         store.add_documents(documents=splits)
