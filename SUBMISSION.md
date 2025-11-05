@@ -8,7 +8,7 @@ The ingestion and preprocessing phase is handled by `document_utils.py`, which m
 
 For embeddings and retrieval, document chunks are encoded using OpenAI embeddings and stored in an `InMemoryVectorStore` for simplicity. The interface design allows seamless replacement with FAISS, Chroma, or PGVector for persistence or scalability without modifying other components.
 
-The agent layer, defined in `agent_utils.py`, provides reusable functions for retrieval and conversation. `make_retrieve_context_tool` binds the retrieval tool to a given vector store, and `make_rag_agent` returns a callable chat handler bound to both the model and store. Finally, `main.py` orchestrates the full pipeline and passes a bound chat function to `gradio_app.py`, which defines a compact Gradio `ChatInterface`. Configuration values such as model names and chunk sizes are stored in environment files for easy modification.
+The agent layer, defined in `agent_utils.py`, provides reusable functions for retrieval and conversation. `make_retrieve_context_tool` binds the retrieval tool to a given vector store, and `make_rag_agent` returns a callable chat handler bound to both the model and store. It also keeps track of chat history. The number of messages in context can be set with `MAX_HISTORY_TURNS`. Finally, `main.py` orchestrates the full pipeline and passes a bound chat function to `gradio_app.py`, which defines a compact Gradio `ChatInterface`. Configuration values such as model names and chunk sizes are stored in environment files for easy modification.
 
 ### Tools & Libraries
 
@@ -25,7 +25,7 @@ Several extensions could enhance this prototype:
 - **Structured Output:** Implement a citation formatter with token budgeting per citation and add a rule-based or model-assisted guardrail to verify clinical claims.
 - **Data Layer:** Replace the in-memory vector store with FAISS, Chroma, or PGVector for larger corpora and persistence. Precompute and cache embeddings to reduce startup time.
 - **Prompting & Control:** Refine role and system prompts to enforce clinical tone, citation policies, and contextual safety. Introduce UI toggles for concise vs. detailed responses or clinician vs. patient-safe modes.
-- **History**: Implement chat history so that follow up questions can easily be asked.
+- ~~**History**: Implement chat history so that follow up questions can easily be asked.~~
 - **File Types and Images**: Allow for processing of images within PDFs and allow for additional files other than PDFs.
 - **UI/UX:** Display retrieved snippets and citations inline, add document/source filters, and include features like streaming token output or context-based retries.
 - **Evaluation & Safety:** Develop an evaluation set based on the provided questions to measure accuracy and citation correctness. Integrate explicit safety checks for black box warnings and contraindications.

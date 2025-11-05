@@ -37,6 +37,7 @@ MODEL_NAME = os.getenv("OPENAI_MODEL", "gpt-5-nano")
 EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "text-embedding-3-large")
 CHUNK_SIZE = int(os.getenv("CHUNK_SIZE", "1000"))
 CHUNK_OVERLAP = int(os.getenv("CHUNK_OVERLAP", "200"))
+MAX_HISTORY_TURNS = int(os.getenv("MAX_HISTORY_TURNS", "5"))
 DOCUMENTS_DIR = (Path.cwd() / "documents").resolve()
 URLS_FILE = DOCUMENTS_DIR / "urls.txt"
 
@@ -56,7 +57,7 @@ def initialize():
     vector_store = build_vector_store(splits, EMBEDDING_MODEL)
 
     model = ChatOpenAI(model=MODEL_NAME)
-    return make_rag_agent(model, vector_store)
+    return make_rag_agent(model, vector_store, MAX_HISTORY_TURNS)
 
 
 if __name__ == "__main__":
