@@ -1,3 +1,32 @@
+## Quick Start
+
+### Project Files
+- **main.py**: Entry point; initializes environment, builds vector store, wires model and launches UI.
+- **document_utils.py**: Document pipeline utilities (download, load PDFs, split, build vector store).
+- **agent_utils.py**: RAG agent/tool functions bound to a model and vector store.
+- **gradio_app.py**: Gradio UI function returning the `ChatInterface`.
+- **documents/**: Local PDFs and `urls.txt` for auto-downloads.
+- **prompts.env**: Optional env file for changing `SYSTEM_PROMPT`.
+
+### Setup (Python 3.10)
+```bash
+# From the project root
+python3.10 -m venv .venv  # or: python3 -m venv .venv (if python3 == 3.10)
+source .venv/bin/activate  # macOS/Linux
+
+pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+### Configure Environment
+- Ensure `OPENAI_API_KEY` is set, e.g. in `.env`.
+- Optional: set `SYSTEM_PROMPT`, `OPENAI_MODEL`, `EMBEDDING_MODEL`, `CHUNK_SIZE`, `CHUNK_OVERLAP`.
+
+### Run
+```bash
+python3 main.py
+```
+
 ## Optional Data Science Take-Home Assignment: Building a Clinical Knowledge Assistant for Psychiatry
 
 **The Goal**
