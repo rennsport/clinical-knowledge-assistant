@@ -41,8 +41,6 @@ Several extensions could enhance this prototype:
 
 2. Set `OPENAI_API_KEY` in your `.env` file and add PDF URLs to `documents/urls.txt`
 
-3. ```bash
-   python3 main.py
-   ```
-
+3. `python3 main.py`
+   
 4. Go to `http://127.0.0.1:7861` in your browser
